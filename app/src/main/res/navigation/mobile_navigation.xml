@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.mariejuana.mobdevcompilation.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_oddeven"
+        android:name="com.mariejuana.mobdevcompilation.ui.basics.oddeven.OddEvenFragment"
+        android:label="@string/menu_evenodd"
+        tools:layout="@layout/fragment_oddeven" />
+
+    <fragment
+        android:id="@+id/nav_printname"
+        android:name="com.mariejuana.mobdevcompilation.ui.basics.printname.PrintNameFragment"
+        android:label="@string/menu_printname"
+        tools:layout="@layout/fragment_printname" />
+    <fragment
+        android:id="@+id/nav_android_status"
+        android:name="com.mariejuana.mobdevcompilation.ui.basics.getandroidstatus.GetAndroidStatusFragment"
+        android:label="@string/menu_android_status" />
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="com.mariejuana.mobdevcompilation.ui.slideshow.SlideshowFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_slideshow" />
+</navigation>

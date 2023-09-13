@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">MOBDEV Compilation</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="nav_header_title">Mobile Development Compilation</string>
+    <string name="nav_header_subtitle">Created by Jericho Diaz</string>
+
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+
+    <string name="menu_basics">Basic Applications</string>
+    <string name="menu_printname">Print Name</string>
+    <string name="menu_evenodd">Odd or Even</string>
+    <string name="menu_android_status">Android Status</string>
+
+    <string name="menu_slideshow">Slideshow</string>
+</resources>
