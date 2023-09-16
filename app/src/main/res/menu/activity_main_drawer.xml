@@ -24,11 +24,22 @@
                 <item
                     android:id="@+id/nav_android_status"
                     android:title="@string/menu_android_status" />
+                <item
+                    android:id="@+id/nav_calculator"
+                    android:title="@string/menu_calculator" />
             </menu>
         </item>
+
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:id="@+id/nav_activities"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/menu_activities">
+
+            <menu>
+                <item
+                    android:id="@+id/nav_minigame1"
+                    android:title="@string/menu_minigame1" />
+            </menu>
+        </item>
     </group>
 </menu>

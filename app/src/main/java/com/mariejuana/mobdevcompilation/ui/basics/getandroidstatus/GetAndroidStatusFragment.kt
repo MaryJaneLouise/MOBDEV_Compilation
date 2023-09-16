@@ -43,7 +43,7 @@ class GetAndroidStatusFragment : Fragment() {
             textView.text = androidStatusText
         }
 
-        return root
+        return binding.root
     }
 
     override fun onDestroyView() {

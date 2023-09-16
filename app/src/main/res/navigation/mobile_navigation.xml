@@ -31,4 +31,14 @@
         android:name="com.mariejuana.mobdevcompilation.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/nav_calculator"
+        android:name="com.mariejuana.mobdevcompilation.ui.basics.calculator.CalculatorFragment"
+        android:label="@string/menu_calculator"
+        tools:layout="@layout/fragment_calculator" />
+    <fragment
+        android:id="@+id/nav_minigame1"
+        android:name="com.mariejuana.mobdevcompilation.ui.activities.minigame1.MiniGame1Fragment"
+        android:label="@string/menu_minigame1"
+        tools:layout="@layout/fragment_minigame1" />
 </navigation>

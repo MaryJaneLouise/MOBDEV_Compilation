@@ -54,7 +54,7 @@ class OddEvenFragment : Fragment() {
         oddEvenViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
-        return root
+        return binding.root
     }
 
     override fun onDestroyView() {

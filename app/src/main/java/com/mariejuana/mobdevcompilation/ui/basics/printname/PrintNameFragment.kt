@@ -36,7 +36,7 @@ class PrintNameFragment : Fragment() {
         printNameViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
-        return root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

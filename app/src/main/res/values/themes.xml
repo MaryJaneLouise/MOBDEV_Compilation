@@ -5,18 +5,17 @@
         parent="Theme.MaterialComponents.DayNight.DarkActionBar">
 
         <!-- Primary brand color. -->
-        <item name="colorPrimary">?attr/colorPrimaryVariant</item>
-        <item name="colorPrimaryVariant">?attr/colorOnPrimarySurface</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimary">@color/purple_200</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/black</item>
 
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">?attr/colorPrimaryVariant</item>
-        <item name="colorSecondaryVariant">?attr/colorOnSecondaryFixed</item>
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_200</item>
         <item name="colorOnSecondary">@color/black</item>
 
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorOnPrimarySurface</item>
-        <item name="android:windowLightStatusBar">?attr/colorAccent</item>
+        <item name="actionBarTheme">?attr/colorOnPrimarySurface</item>
 
         <!-- Customize your theme here. -->
     </style>

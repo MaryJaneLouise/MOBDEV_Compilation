@@ -16,6 +16,10 @@
     <string name="menu_printname">Print Name</string>
     <string name="menu_evenodd">Odd or Even</string>
     <string name="menu_android_status">Android Status</string>
+    <string name="menu_calculator">Mini Calculator</string>
+
+    <string name="menu_activities">Activities</string>
+    <string name="menu_minigame1">Mini Game 1</string>
 
     <string name="menu_slideshow">Slideshow</string>
 </resources>
