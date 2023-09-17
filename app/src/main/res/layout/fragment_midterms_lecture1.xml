@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ui.lectures.midterms.lecture1.LM1Fragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/edt_total_charge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter total charge"
+            android:inputType="numberDecimal" />
+
+        <RadioGroup
+            android:id="@+id/rg_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/rb_ten"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tip(10%)" />
+
+            <RadioButton
+                android:id="@+id/rb_twenty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tip(20%)" />
+
+            <RadioButton
+                android:id="@+id/rb_thirty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tip(30%)" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btn_calculate_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Calculate tip"
+            android:enabled="false"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total tip"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_total_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$00.00"
+            android:textColor="#1CB11E"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
