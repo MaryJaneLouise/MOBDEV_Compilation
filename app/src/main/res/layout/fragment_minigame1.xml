@@ -22,13 +22,25 @@
             android:id="@+id/playerInfoTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Player" />
+            android:text="Player's HP" />
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/playerHealthBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"/>
 
         <TextView
             android:id="@+id/enemyInfoTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Enemy" />
+            android:text="Enemy's HP" />
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/enemyHealthBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"/>
 
         <!-- Buttons for game actions -->
         <Button
@@ -42,6 +54,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Heal" />
+
+        <Button
+            android:id="@+id/defendButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Defend" />
 
         <Button
             android:id="@+id/restartButton"
@@ -58,6 +76,14 @@
             android:layout_gravity="center"
             android:textAlignment="center"
             android:text="Start the game!" />
+
+        <TextView
+            android:id="@+id/enemyActionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:text="Enemy's action will be displayed here!" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

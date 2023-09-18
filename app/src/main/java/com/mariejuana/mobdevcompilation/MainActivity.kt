@@ -38,8 +38,6 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_home,
-                R.id.nav_oddeven,
-                R.id.nav_printname,
                 R.id.nav_android_status,
                 R.id.nav_slideshow
             ), drawerLayout

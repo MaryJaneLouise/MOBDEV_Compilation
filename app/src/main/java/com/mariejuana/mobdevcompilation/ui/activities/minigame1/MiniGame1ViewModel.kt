@@ -20,53 +20,119 @@ open class Character(val name : String, var healthBar : Int, val damageDealth : 
     }
 }
 
-class Player(name: String, healthBar: Int, damage: Int) : Character(name, healthBar, damage) {
+class Player(name: String, healthBar: Int, damage: Int, val maxHealth: Int) : Character(name, healthBar, damage) {
     fun heal(): Int {
-        val healingAmount = Random.nextInt(10, 50)
-        healthBar += healingAmount
-        return healingAmount
+        if (healthBar < maxHealth) {
+            val healingAmount = Random.nextInt(10, 50)
+            healthBar = minOf(healthBar + healingAmount, maxHealth)
+            return healingAmount
+        }
+        return 0
+    }
+
+    fun defend(): Int {
+        val damageReduced = Random.nextInt(5, 20)
+        return minOf(damageReduced, healthBar)
     }
 }
 
-class Enemy(name: String, health: Int, damage: Int) : Character(name, health, damage) {
+class Enemy(name: String, health: Int, damage: Int, val maxHealth: Int) : Character(name, health, damage) {
     fun heal(): Int {
-        val healingAmount = Random.nextInt(10, 50)
-        healthBar += healingAmount
-        return healingAmount
+        if (healthBar < maxHealth) {
+            val healingAmount = Random.nextInt(10, 50)
+            healthBar = minOf(healthBar + healingAmount, maxHealth)
+            return healingAmount
+        }
+        return 0
+    }
+
+    fun defend(): Int {
+        val damageReduced = Random.nextInt(5, 20)
+        return minOf(damageReduced, healthBar)
+    }
+
+    fun performRandomAction(): String {
+        val randomAction = when (Random.nextInt(1, 4)) {
+            1 -> "attack"
+            2 -> "heal"
+            else -> "defend"
+        }
+
+        return randomAction
     }
 }
 
 data class MiniGame1Model(
     val player: Player,
     val enemy: Enemy,
-    var gameMessage: String
+    var gameMessage: String,
+    var enemyAction: String?
 )
 
 class MiniGame1ViewModel : ViewModel() {
-
     private val _gameModel = MutableLiveData<MiniGame1Model>()
     val gameModel: LiveData<MiniGame1Model>
         get() = _gameModel
 
+    val playerMaxHealth = 200
+    val enemyMaxHealth = 200
+
+    var isGameOver = false
+
     init {
-        val initialModel = MiniGame1Model(Player("Jericho", 150, 20), Enemy("Hamuel", 150, 25), "")
+        val maxHealth = 200
+        val initialModel = MiniGame1Model(
+            Player("Jericho", maxHealth, 20, maxHealth),
+            Enemy("Hamuel", maxHealth, 25, maxHealth),
+            "Start the game!",
+            "Enjoy.")
         _gameModel.value = initialModel
+    }
+
+    fun performEnemyAction() {
+        val currentModel = _gameModel.value ?: return
+        val player = currentModel.player
+        val enemy = currentModel.enemy
+
+        val enemyAction = when (enemy.performRandomAction()) {
+            "attack" -> {
+                val enemyDamage = enemy.attack(player)
+                "Enemy attacks Player with $enemyDamage damage!"
+            }
+            "heal" -> {
+                val healingAmountEnemy = enemy.heal()
+                "Enemy heals with $healingAmountEnemy health!"
+            }
+            "defend" -> {
+                val enemyDefend = enemy.defend()
+                "Enemy defends and reduces incoming damage by $enemyDefend!"
+            }
+            else -> "Enemy takes no action."
+        }
+
+        val updatedModel = MiniGame1Model(
+            currentModel.player,
+            enemy,
+            currentModel.gameMessage,
+            enemyAction
+        )
+
+        _gameModel.value = updatedModel
+
+        checkGameResult(updatedModel)
     }
 
     fun onAttackButtonClick() {
         val currentModel = _gameModel.value ?: return
         val player = currentModel.player
-        val enemy = currentModel.enemy
 
-        val playerDamage = player.attack(enemy)
-        val enemyDamage = enemy.attack(player)
+        val playerDamage = player.attack(currentModel.enemy)
+        val gameMessage = "Player attacks Enemy with $playerDamage damage!"
 
-        val gameMessage = "Player attacks Enemy with $playerDamage damage!\n" +
-                "Enemy attacks Player with $enemyDamage damage!"
-
-        val updatedModel = MiniGame1Model(player, enemy, gameMessage)
-
+        val updatedModel = MiniGame1Model(player, currentModel.enemy, gameMessage, currentModel.enemyAction)
         _gameModel.value = updatedModel
+
+        performEnemyAction()
 
         checkGameResult(updatedModel)
     }
@@ -74,26 +140,48 @@ class MiniGame1ViewModel : ViewModel() {
     fun onHealButtonClick() {
         val currentModel = _gameModel.value ?: return
         val player = currentModel.player
-        val enemy = currentModel.enemy
 
-        player.heal()
-        enemy.heal()
+        val healingAmountPlayer = player.heal()
 
-        val gameMessage = "Player heals with ${player.heal()} health!\n" +
-                "Enemy heals with ${enemy.heal()} health!"
+        if (healingAmountPlayer > 0) {
+            val gameMessage = "Player heals with $healingAmountPlayer health!"
+            val updatedModel = MiniGame1Model(player, currentModel.enemy, gameMessage, currentModel.enemyAction)
+            performEnemyAction()
+            _gameModel.value = updatedModel
 
-        val updatedModel = MiniGame1Model(player, enemy, gameMessage)
+            checkGameResult(updatedModel)
+        } else {
+            val gameMessage = "Player's health is already at maximum!"
+            val updatedModel = MiniGame1Model(player, currentModel.enemy, gameMessage, currentModel.enemyAction)
+            _gameModel.value = updatedModel
+        }
+    }
 
+    fun onDefendButtonClick() {
+        val currentModel = _gameModel.value ?: return
+        val player = currentModel.player
+
+        val playerDamageReduced = player.defend()
+        val gameMessage = "Player defends and reduces incoming damage by $playerDamageReduced!"
+
+        val updatedModel = MiniGame1Model(player, currentModel.enemy, gameMessage, currentModel.enemyAction)
         _gameModel.value = updatedModel
+
+        performEnemyAction()
 
         checkGameResult(updatedModel)
     }
 
     fun restartGame() {
-        val initialModel = MiniGame1Model(Player("Jericho", 150, 20), Enemy("Hamuel", 150, 25), "")
+        val maxHealth = 200
+        val initialModel = MiniGame1Model(
+            Player("Jericho", maxHealth, 20, maxHealth),
+            Enemy("Hamuel", maxHealth, 25, maxHealth),
+            "Start the game!",
+            "Enjoy.")
+        isGameOver = false
         _gameModel.value = initialModel
     }
-
 
     private fun checkGameResult(model: MiniGame1Model) {
         val player = model.player
@@ -102,9 +190,9 @@ class MiniGame1ViewModel : ViewModel() {
         if (player.healthBar <= 0 || enemy.healthBar <= 0) {
             val gameMessage =
                 if (player.healthBar <= 0) "You lose! Game over.\n" +
-                    "Restart the game if you want to still play."
+                        "Restart the game if you want to still play."
                 else "Congratulations! You defeated the enemy."
-            val finalModel = MiniGame1Model(player, enemy, gameMessage)
+            val finalModel = MiniGame1Model(player, enemy, gameMessage, "")
             _gameModel.value = finalModel
         }
     }

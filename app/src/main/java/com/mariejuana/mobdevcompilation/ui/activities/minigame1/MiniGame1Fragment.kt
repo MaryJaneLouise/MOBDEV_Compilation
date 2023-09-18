@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.mariejuana.mobdevcompilation.R
 import com.mariejuana.mobdevcompilation.databinding.FragmentMinigame1Binding
 
@@ -17,8 +18,10 @@ class MiniGame1Fragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: MiniGame1ViewModel
 
-    private var attackButton: Button? = null
-    private var healButton: Button? = null
+    private var prevPlayerHealth = 0
+    private var prevEnemyHealth = 0
+
+    private var enemyActionTextView: TextView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,39 +39,78 @@ class MiniGame1Fragment : Fragment() {
 
         val attackButton: Button = binding.attackButton
         val healButton: Button = binding.healButton
+        val defendButton: Button = binding.defendButton
         val restartButton: Button= binding.restartButton
+        enemyActionTextView = binding.enemyActionTextView
 
         attackButton?.setOnClickListener { viewModel.onAttackButtonClick() }
         healButton?.setOnClickListener { viewModel.onHealButtonClick() }
+        defendButton.setOnClickListener { viewModel.onDefendButtonClick() }
         restartButton.setOnClickListener { viewModel.restartGame() }
 
         viewModel.gameModel.observe(viewLifecycleOwner, { updateUI(it) })
-        updateButtonStates(viewModel.gameModel.value ?: MiniGame1Model(Player("", 0, 0), Enemy("", 0, 0), ""))
+        updateButtonStates(viewModel.gameModel.value ?: MiniGame1Model(
+            Player("", 0, 0, 0),
+            Enemy("", 0, 0, 0),
+            "",
+            ""))
     }
 
     private fun updateUI(model: MiniGame1Model) {
         val playerInfo: TextView = binding.playerInfoTextView
         val enemyInfo: TextView = binding.enemyInfoTextView
         val gameResult: TextView = binding.gameMessageTextView
+        val enemyActionTextView: TextView = binding.enemyActionTextView
 
-        playerInfo.text = "Player health: ${model.player.healthBar}"
-        enemyInfo.text = "Enemy health: ${model.enemy.healthBar} "
+        val playerHealthBar: LinearProgressIndicator = binding.playerHealthBar
+        val enemyHealthBar: LinearProgressIndicator = binding.enemyHealthBar
+
+        val playerMaxHealth = viewModel.playerMaxHealth
+        val enemyMaxHealth = viewModel.enemyMaxHealth
+
+        val currentPlayerHealth = model.player.healthBar
+        val currentEnemyHealth = model.enemy.healthBar
+
+        playerInfo.text = "Player health: $currentPlayerHealth / $playerMaxHealth"
+        enemyInfo.text = "Enemy health: $currentEnemyHealth / $enemyMaxHealth"
         gameResult.text = model.gameMessage
 
+        val playerHealthPercentage = (currentPlayerHealth.toFloat() / playerMaxHealth) * 100
+        val enemyHealthPercentage = (currentEnemyHealth.toFloat() / enemyMaxHealth) * 100
+
+        if (currentPlayerHealth != prevPlayerHealth) {
+            playerHealthBar.progress = playerHealthPercentage.toInt()
+            prevPlayerHealth = currentPlayerHealth
+        }
+
+        if (currentEnemyHealth != prevEnemyHealth) {
+            enemyHealthBar.progress = enemyHealthPercentage.toInt()
+            prevEnemyHealth = currentEnemyHealth
+        }
+
+        enemyActionTextView.text = model.enemyAction
         updateButtonStates(model)
     }
 
     private fun updateButtonStates(model: MiniGame1Model) {
-        val isPlayerAlive = model.player.healthBar <= 0
-        val isEnemyAlive = model.enemy.healthBar <= 0
+        val isPlayerAlive = model.player.healthBar > 0
+        val isEnemyAlive = model.enemy.healthBar > 0
 
-        // Enable or disable buttons based on player and enemy health
-        if (isEnemyAlive || isPlayerAlive) {
-            attackButton?.isEnabled = false
-            healButton?.isEnabled = false
+        if (viewModel.isGameOver) {
+            binding.attackButton.isEnabled = false
+            binding.healButton.isEnabled = false
+            binding.defendButton.isEnabled = false
+        } else if (!isPlayerAlive || !isEnemyAlive) {
+            binding.attackButton.isEnabled = false
+            binding.healButton.isEnabled = false
+            binding.defendButton.isEnabled = false
+            viewModel.isGameOver = true
+        } else {
+            binding.attackButton.isEnabled = true
+            binding.healButton.isEnabled = true
+            binding.defendButton.isEnabled = true
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
