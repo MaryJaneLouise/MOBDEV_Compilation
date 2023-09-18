@@ -66,7 +66,8 @@ data class MiniGame1Model(
     val player: Player,
     val enemy: Enemy,
     var gameMessage: String,
-    var enemyAction: String?
+    var enemyAction: String?,
+    var rolledNumberMessage: String?
 )
 
 class MiniGame1ViewModel : ViewModel() {
@@ -78,6 +79,7 @@ class MiniGame1ViewModel : ViewModel() {
     val enemyMaxHealth = 200
 
     var isGameOver = false
+    var isUserTurn = false
 
     init {
         val maxHealth = 200
@@ -85,7 +87,8 @@ class MiniGame1ViewModel : ViewModel() {
             Player("Jericho", maxHealth, 20, maxHealth),
             Enemy("Hamuel", maxHealth, 25, maxHealth),
             "Start the game!",
-            "Enjoy.")
+            "If the rolled number is odd, it's the computer's turn. Otherwise, it's you.",
+            "NONE")
         _gameModel.value = initialModel
     }
 
@@ -114,7 +117,8 @@ class MiniGame1ViewModel : ViewModel() {
             currentModel.player,
             enemy,
             currentModel.gameMessage,
-            enemyAction
+            enemyAction,
+            currentModel.rolledNumberMessage
         )
 
         _gameModel.value = updatedModel
@@ -122,54 +126,88 @@ class MiniGame1ViewModel : ViewModel() {
         checkGameResult(updatedModel)
     }
 
-    fun onAttackButtonClick() {
-        val currentModel = _gameModel.value ?: return
-        val player = currentModel.player
+    fun rollForTurn() {
+        val rollResult = (1..8).random()
+        isUserTurn = rollResult % 2 == 0
 
-        val playerDamage = player.attack(currentModel.enemy)
-        val gameMessage = "Player attacks Enemy with $playerDamage damage!"
+        _gameModel.value?.let { model ->
+            val rolledNumberMessage = "$rollResult"
+            val updatedModel = MiniGame1Model(model.player, model.enemy, model.gameMessage, model.enemyAction, rolledNumberMessage)
+            _gameModel.value = updatedModel
 
-        val updatedModel = MiniGame1Model(player, currentModel.enemy, gameMessage, currentModel.enemyAction)
-        _gameModel.value = updatedModel
-
-        performEnemyAction()
-
-        checkGameResult(updatedModel)
+            if (!isUserTurn) {
+                performEnemyAction()
+            }
+        }
     }
 
-    fun onHealButtonClick() {
-        val currentModel = _gameModel.value ?: return
-        val player = currentModel.player
+    fun onAttackButtonClick() {
+        if (isUserTurn) {
+            val currentModel = _gameModel.value ?: return
+            val player = currentModel.player
 
-        val healingAmountPlayer = player.heal()
+            val playerDamage = player.attack(currentModel.enemy)
+            val gameMessage = "Player attacks Enemy with $playerDamage damage!"
 
-        if (healingAmountPlayer > 0) {
-            val gameMessage = "Player heals with $healingAmountPlayer health!"
-            val updatedModel = MiniGame1Model(player, currentModel.enemy, gameMessage, currentModel.enemyAction)
-            performEnemyAction()
+            val updatedModel = MiniGame1Model(player, currentModel.enemy, gameMessage, currentModel.enemyAction, currentModel.rolledNumberMessage)
             _gameModel.value = updatedModel
 
             checkGameResult(updatedModel)
+            isUserTurn = false
         } else {
-            val gameMessage = "Player's health is already at maximum!"
-            val updatedModel = MiniGame1Model(player, currentModel.enemy, gameMessage, currentModel.enemyAction)
+            val currentModel = _gameModel.value ?: return
+            val gameMessage = "It's not your turn! Roll again for the turn."
+            val updatedModel = MiniGame1Model(currentModel.player, currentModel.enemy, gameMessage, currentModel.enemyAction, currentModel.rolledNumberMessage)
+            _gameModel.value = updatedModel
+        }
+    }
+
+    fun onHealButtonClick() {
+        if (isUserTurn) {
+            val currentModel = _gameModel.value ?: return
+            val player = currentModel.player
+
+            val healingAmountPlayer = player.heal()
+
+            if (healingAmountPlayer > 0) {
+                val gameMessage = "Player heals with $healingAmountPlayer health!"
+                val updatedModel = MiniGame1Model(player, currentModel.enemy, gameMessage, currentModel.enemyAction, currentModel.rolledNumberMessage)
+                _gameModel.value = updatedModel
+
+                checkGameResult(updatedModel)
+                isUserTurn = false
+            } else {
+                val gameMessage = "Player's health is already at maximum!"
+                val updatedModel = MiniGame1Model(player, currentModel.enemy, gameMessage, currentModel.enemyAction, currentModel.rolledNumberMessage)
+                _gameModel.value = updatedModel
+            }
+        } else {
+            val currentModel = _gameModel.value ?: return
+            val gameMessage = "It's not your turn! Roll again for the turn."
+            val updatedModel = MiniGame1Model(currentModel.player, currentModel.enemy, gameMessage, currentModel.enemyAction, currentModel.rolledNumberMessage)
             _gameModel.value = updatedModel
         }
     }
 
     fun onDefendButtonClick() {
-        val currentModel = _gameModel.value ?: return
-        val player = currentModel.player
+        if (isUserTurn) {
+            val currentModel = _gameModel.value ?: return
+            val player = currentModel.player
 
-        val playerDamageReduced = player.defend()
-        val gameMessage = "Player defends and reduces incoming damage by $playerDamageReduced!"
+            val playerDamageReduced = player.defend()
+            val gameMessage = "Player defends and reduces incoming damage by $playerDamageReduced!"
 
-        val updatedModel = MiniGame1Model(player, currentModel.enemy, gameMessage, currentModel.enemyAction)
-        _gameModel.value = updatedModel
+            val updatedModel = MiniGame1Model(player, currentModel.enemy, gameMessage, currentModel.enemyAction, currentModel.rolledNumberMessage)
+            _gameModel.value = updatedModel
 
-        performEnemyAction()
-
-        checkGameResult(updatedModel)
+            checkGameResult(updatedModel)
+            isUserTurn = false
+        } else {
+            val currentModel = _gameModel.value ?: return
+            val gameMessage = "It's not your turn! Roll again for the turn."
+            val updatedModel = MiniGame1Model(currentModel.player, currentModel.enemy, gameMessage, currentModel.enemyAction, currentModel.rolledNumberMessage)
+            _gameModel.value = updatedModel
+        }
     }
 
     fun restartGame() {
@@ -178,7 +216,8 @@ class MiniGame1ViewModel : ViewModel() {
             Player("Jericho", maxHealth, 20, maxHealth),
             Enemy("Hamuel", maxHealth, 25, maxHealth),
             "Start the game!",
-            "Enjoy.")
+            "If the rolled number is odd, it's the computer's turn. Otherwise, it's you.",
+            "NONE")
         isGameOver = false
         _gameModel.value = initialModel
     }
@@ -192,7 +231,7 @@ class MiniGame1ViewModel : ViewModel() {
                 if (player.healthBar <= 0) "You lose! Game over.\n" +
                         "Restart the game if you want to still play."
                 else "Congratulations! You defeated the enemy."
-            val finalModel = MiniGame1Model(player, enemy, gameMessage, "")
+            val finalModel = MiniGame1Model(player, enemy, gameMessage, "", "")
             _gameModel.value = finalModel
         }
     }

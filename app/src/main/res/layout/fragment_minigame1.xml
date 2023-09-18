@@ -17,6 +17,43 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rolled Number: "
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/rolledNumberTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            android:textSize="80dp"
+            android:textStyle="bold"
+            android:layout_marginBottom="15dp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/turnTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="It's your turn! Make sure to use your skills!"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:layout_marginBottom="25dp"/>
+
         <!-- Display character information -->
         <TextView
             android:id="@+id/playerInfoTextView"
@@ -42,32 +79,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="25dp"/>
 
-        <!-- Buttons for game actions -->
-        <Button
-            android:id="@+id/attackButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Attack" />
-
-        <Button
-            android:id="@+id/healButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Heal" />
-
-        <Button
-            android:id="@+id/defendButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Defend" />
-
-        <Button
-            android:id="@+id/restartButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Restart Game" />
-
-
         <!-- Display game messages -->
         <TextView
             android:id="@+id/gameMessageTextView"
@@ -84,6 +95,69 @@
             android:layout_gravity="center"
             android:textAlignment="center"
             android:text="Enemy's action will be displayed here!" />
+
+        <!-- Rolling -->
+        <Button
+            android:id="@+id/rollButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Roll a number"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="15dp"/>
+
+        <!-- Buttons for game actions -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SELECT SKILLS"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="25dp">
+
+            <Button
+                android:id="@+id/attackButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="Attack" />
+
+            <Button
+                android:id="@+id/healButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Heal" />
+
+            <Button
+                android:id="@+id/defendButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="Defend" />
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/restartButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Restart Game" />
+
+
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

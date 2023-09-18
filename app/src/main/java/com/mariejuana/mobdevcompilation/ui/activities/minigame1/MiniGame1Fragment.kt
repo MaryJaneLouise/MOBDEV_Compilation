@@ -23,6 +23,10 @@ class MiniGame1Fragment : Fragment() {
 
     private var enemyActionTextView: TextView? = null
 
+    private lateinit var rolledNumberTextView: TextView
+    private lateinit var rollButton: Button
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -48,10 +52,16 @@ class MiniGame1Fragment : Fragment() {
         defendButton.setOnClickListener { viewModel.onDefendButtonClick() }
         restartButton.setOnClickListener { viewModel.restartGame() }
 
+        rolledNumberTextView = binding.rolledNumberTextView
+        rollButton = binding.rollButton
+
+        rollButton.setOnClickListener { viewModel.rollForTurn() }
+
         viewModel.gameModel.observe(viewLifecycleOwner, { updateUI(it) })
         updateButtonStates(viewModel.gameModel.value ?: MiniGame1Model(
             Player("", 0, 0, 0),
             Enemy("", 0, 0, 0),
+            "",
             "",
             ""))
     }
@@ -61,6 +71,7 @@ class MiniGame1Fragment : Fragment() {
         val enemyInfo: TextView = binding.enemyInfoTextView
         val gameResult: TextView = binding.gameMessageTextView
         val enemyActionTextView: TextView = binding.enemyActionTextView
+        val turnTextView: TextView = binding.turnTextView
 
         val playerHealthBar: LinearProgressIndicator = binding.playerHealthBar
         val enemyHealthBar: LinearProgressIndicator = binding.enemyHealthBar
@@ -89,6 +100,16 @@ class MiniGame1Fragment : Fragment() {
         }
 
         enemyActionTextView.text = model.enemyAction
+        rolledNumberTextView.text = model.rolledNumberMessage ?: "Rolled Number: "
+
+        if (viewModel.isUserTurn) {
+            turnTextView.text = "It's your turn! Make sure to use your skills!"
+        } else if (rolledNumberTextView.text == "NONE") {
+            turnTextView.text = "Please roll a number to begin!"
+        } else {
+            turnTextView.text = "It's the computer's turn. Please wait."
+        }
+
         updateButtonStates(model)
     }
 
@@ -97,15 +118,22 @@ class MiniGame1Fragment : Fragment() {
         val isEnemyAlive = model.enemy.healthBar > 0
 
         if (viewModel.isGameOver) {
+            binding.rollButton.isEnabled = false
             binding.attackButton.isEnabled = false
             binding.healButton.isEnabled = false
             binding.defendButton.isEnabled = false
         } else if (!isPlayerAlive || !isEnemyAlive) {
+            binding.rollButton.isEnabled = false
             binding.attackButton.isEnabled = false
             binding.healButton.isEnabled = false
             binding.defendButton.isEnabled = false
             viewModel.isGameOver = true
-        } else {
+        } else if (!viewModel.isUserTurn){
+            binding.attackButton.isEnabled = false
+            binding.healButton.isEnabled = false
+            binding.defendButton.isEnabled = false
+        }
+        else {
             binding.attackButton.isEnabled = true
             binding.healButton.isEnabled = true
             binding.defendButton.isEnabled = true
