@@ -110,6 +110,15 @@ class MiniGame1Fragment : Fragment() {
             turnTextView.text = "It's the computer's turn. Please wait."
         }
 
+        if (gameResult.text == "You lose! Game over.\n" +
+            "Restart the game if you want to still play.") {
+            turnTextView.text = "It's game over now, loser."
+            rolledNumberTextView.text = "LOSE!"
+        } else if (gameResult.text == "Congratulations! You defeated the enemy."){
+            turnTextView.text = "Congratulations, you are the winner!"
+            rolledNumberTextView.text = "WINNER!"
+        }
+
         updateButtonStates(model)
     }
 

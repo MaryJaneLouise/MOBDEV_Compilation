@@ -228,8 +228,7 @@ class MiniGame1ViewModel : ViewModel() {
 
         if (player.healthBar <= 0 || enemy.healthBar <= 0) {
             val gameMessage =
-                if (player.healthBar <= 0) "You lose! Game over.\n" +
-                        "Restart the game if you want to still play."
+                if (player.healthBar <= 0) "You lose! Game over.\nRestart the game if you want to still play."
                 else "Congratulations! You defeated the enemy."
             val finalModel = MiniGame1Model(player, enemy, gameMessage, "", "")
             _gameModel.value = finalModel
