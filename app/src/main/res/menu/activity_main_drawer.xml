@@ -7,25 +7,28 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/round_home_24"
             android:title="@string/menu_home" />
         <item
             android:id="@+id/nav_basics_menu"
-            android:icon="@drawable/ic_menu_gallery"
             android:title="@string/menu_basics">
 
             <menu>
                 <item
                     android:id="@+id/nav_oddeven"
+                    android:icon="@drawable/baseline_numbers_24"
                     android:title="@string/menu_evenodd" />
                 <item
                     android:id="@+id/nav_printname"
+                    android:icon="@drawable/baseline_sort_by_alpha_24"
                     android:title="@string/menu_printname" />
                 <item
                     android:id="@+id/nav_android_status"
+                    android:icon="@drawable/baseline_query_stats_24"
                     android:title="@string/menu_android_status" />
                 <item
                     android:id="@+id/nav_calculator"
+                    android:icon="@drawable/baseline_calculate_24"
                     android:title="@string/menu_calculator" />
             </menu>
         </item>
@@ -38,6 +41,7 @@
             <menu>
                 <item
                     android:id="@+id/nav_minigame1"
+                    android:icon="@drawable/baseline_hdr_strong_24"
                     android:title="@string/menu_minigame1" />
             </menu>
         </item>
@@ -50,6 +54,7 @@
             <menu>
                 <item
                     android:id="@+id/nav_lm_1"
+                    android:icon="@drawable/baseline_edit_note_24"
                     android:title="@string/menu_LM1" />
             </menu>
         </item>
