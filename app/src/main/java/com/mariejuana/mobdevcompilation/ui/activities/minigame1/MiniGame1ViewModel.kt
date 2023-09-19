@@ -80,6 +80,7 @@ class MiniGame1ViewModel : ViewModel() {
 
     var isGameOver = false
     var isUserTurn = false
+    var isRestart = false
 
     init {
         val maxHealth = 200
@@ -219,6 +220,7 @@ class MiniGame1ViewModel : ViewModel() {
             "If the rolled number is odd, it's the computer's turn. Otherwise, it's you.",
             "NONE")
         isGameOver = false
+        isRestart = true
         _gameModel.value = initialModel
     }
 

@@ -126,6 +126,9 @@ class MiniGame1Fragment : Fragment() {
         val isPlayerAlive = model.player.healthBar > 0
         val isEnemyAlive = model.enemy.healthBar > 0
 
+        if (viewModel.isRestart) {
+            binding.rollButton.isEnabled = true
+        }
         if (viewModel.isGameOver) {
             binding.rollButton.isEnabled = false
             binding.attackButton.isEnabled = false
@@ -137,12 +140,11 @@ class MiniGame1Fragment : Fragment() {
             binding.healButton.isEnabled = false
             binding.defendButton.isEnabled = false
             viewModel.isGameOver = true
-        } else if (!viewModel.isUserTurn){
+        } else if (!viewModel.isUserTurn) {
             binding.attackButton.isEnabled = false
             binding.healButton.isEnabled = false
             binding.defendButton.isEnabled = false
-        }
-        else {
+        }  else {
             binding.attackButton.isEnabled = true
             binding.healButton.isEnabled = true
             binding.defendButton.isEnabled = true
