@@ -129,6 +129,11 @@ class MiniGame1Fragment : Fragment() {
         if (viewModel.isRestart) {
             binding.rollButton.isEnabled = true
         }
+        if (viewModel.hasTurned) {
+            binding.attackButton.isEnabled = false
+            binding.healButton.isEnabled = false
+            binding.defendButton.isEnabled = false
+        }
         if (viewModel.isGameOver) {
             binding.rollButton.isEnabled = false
             binding.attackButton.isEnabled = false
@@ -144,7 +149,7 @@ class MiniGame1Fragment : Fragment() {
             binding.attackButton.isEnabled = false
             binding.healButton.isEnabled = false
             binding.defendButton.isEnabled = false
-        }  else {
+        } else {
             binding.attackButton.isEnabled = true
             binding.healButton.isEnabled = true
             binding.defendButton.isEnabled = true

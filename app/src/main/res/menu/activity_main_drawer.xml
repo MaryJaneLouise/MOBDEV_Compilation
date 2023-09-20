@@ -56,6 +56,10 @@
                     android:id="@+id/nav_lm_1"
                     android:icon="@drawable/baseline_edit_note_24"
                     android:title="@string/menu_LM1" />
+                <item
+                    android:id="@+id/nav_lm_2"
+                    android:icon="@drawable/baseline_edit_note_24"
+                    android:title="@string/menu_LM2" />
             </menu>
         </item>
     </group>

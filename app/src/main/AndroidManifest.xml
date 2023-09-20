@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MOBDEVCompilation"
-        tools:targetApi="31">
+        tools:targetApi="27">
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -21,13 +21,22 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.SENDTO"/>
+                <data android:scheme="mailto"/>
             </intent-filter>
         </activity>
 
     </application>
-    <uses-permission android:name="android.permission.BATTERY_STATS"
+    <uses-permission
+        android:name="android.permission.BATTERY_STATS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="com.android.alarm.permission.SET_ALARM"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.SCHEDULE_EXACT_ALARM"
         tools:ignore="ProtectedPermissions" />
 
 </manifest>

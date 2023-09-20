@@ -81,6 +81,7 @@ class MiniGame1ViewModel : ViewModel() {
     var isGameOver = false
     var isUserTurn = false
     var isRestart = false
+    var hasTurned = false
 
     init {
         val maxHealth = 200
@@ -144,6 +145,7 @@ class MiniGame1ViewModel : ViewModel() {
 
     fun onAttackButtonClick() {
         if (isUserTurn) {
+            hasTurned = true
             val currentModel = _gameModel.value ?: return
             val player = currentModel.player
 
@@ -153,8 +155,9 @@ class MiniGame1ViewModel : ViewModel() {
             val updatedModel = MiniGame1Model(player, currentModel.enemy, gameMessage, currentModel.enemyAction, currentModel.rolledNumberMessage)
             _gameModel.value = updatedModel
 
-            checkGameResult(updatedModel)
             isUserTurn = false
+            checkGameResult(updatedModel)
+
         } else {
             val currentModel = _gameModel.value ?: return
             val gameMessage = "It's not your turn! Roll again for the turn."
@@ -171,13 +174,14 @@ class MiniGame1ViewModel : ViewModel() {
             val healingAmountPlayer = player.heal()
 
             if (healingAmountPlayer > 0) {
+                hasTurned = true
                 val gameMessage = "Player heals with $healingAmountPlayer health!"
                 val updatedModel = MiniGame1Model(player, currentModel.enemy, gameMessage, currentModel.enemyAction, currentModel.rolledNumberMessage)
                 _gameModel.value = updatedModel
 
                 checkGameResult(updatedModel)
-                isUserTurn = false
             } else {
+                hasTurned = true
                 val gameMessage = "Player's health is already at maximum!"
                 val updatedModel = MiniGame1Model(player, currentModel.enemy, gameMessage, currentModel.enemyAction, currentModel.rolledNumberMessage)
                 _gameModel.value = updatedModel
@@ -192,6 +196,7 @@ class MiniGame1ViewModel : ViewModel() {
 
     fun onDefendButtonClick() {
         if (isUserTurn) {
+            hasTurned = true
             val currentModel = _gameModel.value ?: return
             val player = currentModel.player
 
@@ -221,6 +226,7 @@ class MiniGame1ViewModel : ViewModel() {
             "NONE")
         isGameOver = false
         isRestart = true
+        hasTurned = false
         _gameModel.value = initialModel
     }
 

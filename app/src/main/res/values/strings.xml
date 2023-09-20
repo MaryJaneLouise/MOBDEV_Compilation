@@ -23,6 +23,7 @@
 
     <string name="menu_lectures">Lectures</string>
     <string name="menu_LM1">LM1</string>
+    <string name="menu_LM2">LM2</string>
 
     <string name="menu_slideshow">Slideshow</string>
 </resources>
