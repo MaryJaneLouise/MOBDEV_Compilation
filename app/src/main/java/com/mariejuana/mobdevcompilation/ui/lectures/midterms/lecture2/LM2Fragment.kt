@@ -45,7 +45,7 @@ class LM2Fragment : Fragment() , OnClickListener {
                 }
 
                 if (intent.resolveActivity(requireActivity().packageManager) != null)
-                startActivity(intent)
+                    startActivity(intent)
             }
             (R.id.buttonSendEmail) -> {
                 val data = Uri.parse("mailto:")

@@ -18,6 +18,7 @@
 <!--        <item name="actionBarTheme">?attr/colorOnPrimarySurface</item>-->
 
         <!-- Customize your theme here. -->
+        <item name="fontFamily">@font/font_family</item>
     </style>
 
     <style

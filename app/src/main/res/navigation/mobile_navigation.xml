@@ -46,6 +46,10 @@
         android:name="com.mariejuana.mobdevcompilation.ui.lectures.midterms.lecture1.LM1Fragment"
         android:label="@string/menu_LM1" />
     <fragment
+        android:id="@+id/nav_randomquotes"
+        android:name="com.mariejuana.mobdevcompilation.ui.activities.randomquotes.MainFragment"
+        android:label="@string/menu_randomquotes"></fragment>
+    <fragment
         android:id="@+id/nav_lm_2"
         android:name="com.mariejuana.mobdevcompilation.ui.lectures.midterms.lecture2.LM2Fragment"
         android:label="@string/menu_LM2" />
