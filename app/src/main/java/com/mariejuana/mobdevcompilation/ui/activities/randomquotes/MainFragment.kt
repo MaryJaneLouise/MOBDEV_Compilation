@@ -1,12 +1,15 @@
 package com.mariejuana.mobdevcompilation.ui.activities.randomquotes
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mariejuana.mobdevcompilation.R
 import com.mariejuana.mobdevcompilation.ui.activities.randomquotes.FaveFragment
 import java.util.Calendar
@@ -64,6 +67,19 @@ class MainFragment : Fragment() {
         val seed = dayOfYear.toLong()
 
         quoteOfTheDay = getQuoteOfTheDay(seed)
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Check if there are fragments in the back stack before popping
+                if (fragmentManager?.backStackEntryCount!! > 0) {
+                    fragmentManager?.popBackStack()
+                } else {
+                    requireActivity().finish()
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+
     }
 
     override fun onCreateView(
@@ -77,26 +93,39 @@ class MainFragment : Fragment() {
         val buttonFunny : Button = view.findViewById(R.id.buttonFunny)
         val buttonFave : Button = view.findViewById(R.id.buttonFave)
 
+
         textViewQuoteDay = view.findViewById(R.id.text_quote_of_the_day)
 
         textViewQuoteDay.text = quoteOfTheDay
 
         buttonLove.setOnClickListener{
             val fragment = SharedFragment(1)
-            fragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment_content_main, fragment)?.commit()
+            parentFragmentManager.beginTransaction().replace(R.id.nav_host_fragment_content_main, fragment).commit()
         }
+
         buttonInspiration.setOnClickListener{
             val fragment = SharedFragment(2)
-            fragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment_content_main, fragment)?.commit()
+            parentFragmentManager.beginTransaction().replace(R.id.nav_host_fragment_content_main, fragment).commit()
         }
         buttonFunny.setOnClickListener{
             val fragment = SharedFragment(3)
-            fragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment_content_main, fragment)?.commit()
+            parentFragmentManager.beginTransaction().replace(R.id.nav_host_fragment_content_main, fragment).commit()
         }
         buttonFave.setOnClickListener{
             val fragment = FaveFragment()
-            fragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment_content_main, fragment)?.commit()
+            parentFragmentManager.beginTransaction().replace(R.id.nav_host_fragment_content_main, fragment).commit()
         }
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Problem in this Activity")
+            .setMessage("There's a problem in this fragment, it cannot go back in Home again.")
+            .setPositiveButton("Yes, I understand.") { dialog, which -> null }
+            .setNegativeButton("No, sir. :(") {dialog, which -> null}
+            .show()
     }
 }

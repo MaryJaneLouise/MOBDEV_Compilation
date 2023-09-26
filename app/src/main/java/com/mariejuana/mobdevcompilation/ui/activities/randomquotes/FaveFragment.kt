@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import com.mariejuana.mobdevcompilation.R
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -26,6 +27,17 @@ class FaveFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Check if there are fragments in the back stack before popping
+                if (fragmentManager?.backStackEntryCount!! > 0) {
+                    fragmentManager?.popBackStack()
+                } else {
+                    requireActivity().finish()
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
     override fun onCreateView(
@@ -57,7 +69,7 @@ class FaveFragment : Fragment() {
 
         buttonGoBack.setOnClickListener{
             val fragment = MainFragment()
-            fragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment_content_main, fragment)?.commit()
+            parentFragmentManager.beginTransaction().replace(R.id.nav_host_fragment_content_main, fragment).commit()
         }
         buttonFaveQuote.setOnClickListener{
             clearFavoriteQuote()

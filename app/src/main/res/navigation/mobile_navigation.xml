@@ -48,9 +48,34 @@
     <fragment
         android:id="@+id/nav_randomquotes"
         android:name="com.mariejuana.mobdevcompilation.ui.activities.randomquotes.MainFragment"
-        android:label="@string/menu_randomquotes"></fragment>
+        android:label="@string/menu_randomquotes">
+        <action
+            android:id="@+id/action_nav_randomquotes_to_faveFragment"
+            app:destination="@id/faveFragment" />
+        <action
+            android:id="@+id/action_nav_randomquotes_to_sharedFragment"
+            app:destination="@id/sharedFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_lm_2"
         android:name="com.mariejuana.mobdevcompilation.ui.lectures.midterms.lecture2.LM2Fragment"
         android:label="@string/menu_LM2" />
+    <fragment
+        android:id="@+id/faveFragment"
+        android:name="com.mariejuana.mobdevcompilation.ui.activities.randomquotes.FaveFragment"
+        android:label="fragment_fave"
+        tools:layout="@layout/fragment_fave" >
+        <action
+            android:id="@+id/action_faveFragment_to_nav_randomquotes"
+            app:destination="@id/nav_randomquotes" />
+    </fragment>
+    <fragment
+        android:id="@+id/sharedFragment"
+        android:name="com.mariejuana.mobdevcompilation.ui.activities.randomquotes.SharedFragment"
+        android:label="fragment_shared"
+        tools:layout="@layout/fragment_shared" >
+        <action
+            android:id="@+id/action_sharedFragment_to_nav_randomquotes"
+            app:destination="@id/nav_randomquotes" />
+    </fragment>
 </navigation>

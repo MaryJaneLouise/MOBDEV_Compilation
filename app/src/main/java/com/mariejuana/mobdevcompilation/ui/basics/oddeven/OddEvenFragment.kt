@@ -9,6 +9,8 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.mariejuana.mobdevcompilation.databinding.FragmentOddevenBinding
 
 class OddEvenFragment : Fragment() {
@@ -31,11 +33,11 @@ class OddEvenFragment : Fragment() {
         val root: View = binding.root
 
         val textView: TextView = binding.textOddEven
-        val numberInput: EditText = binding.numberInput
+        val numberInput: TextInputLayout = binding.numberInput
         val checkButton: Button = binding.checkButton
 
         checkButton.setOnClickListener {
-            val numberText = numberInput.text.toString()
+            val numberText = numberInput.editText?.text.toString()
 
             try {
                 val number = numberText.toInt()
