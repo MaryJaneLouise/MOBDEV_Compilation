@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.navigation.fragment.findNavController
 import com.mariejuana.mobdevcompilation.R
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -68,8 +69,10 @@ class FaveFragment : Fragment() {
         }
 
         buttonGoBack.setOnClickListener{
-            val fragment = MainFragment()
-            parentFragmentManager.beginTransaction().replace(R.id.nav_host_fragment_content_main, fragment).commit()
+//            val fragment = MainFragment()
+//            parentFragmentManager.beginTransaction().replace(R.id.nav_host_fragment_content_main, fragment).commit()
+
+            findNavController().popBackStack()
         }
         buttonFaveQuote.setOnClickListener{
             clearFavoriteQuote()

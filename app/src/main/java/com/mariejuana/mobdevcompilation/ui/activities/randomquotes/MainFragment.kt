@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mariejuana.mobdevcompilation.R
 import com.mariejuana.mobdevcompilation.ui.activities.randomquotes.FaveFragment
@@ -126,6 +127,7 @@ class MainFragment : Fragment() {
             .setMessage("There's a problem in this fragment, it cannot go back in Home again.")
             .setPositiveButton("Yes, I understand.") { dialog, which -> null }
             .setNegativeButton("No, sir. :(") {dialog, which -> null}
+            .setCancelable(false)
             .show()
     }
 }
